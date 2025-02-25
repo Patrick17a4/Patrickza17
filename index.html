@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณ BMI ตามปิงปองจราจร 7 สี</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>คำนวณ BMI</h2>
+        <input type="number" id="weight" placeholder="น้ำหนัก (กก.)">
+        <input type="number" id="height" placeholder="ส่วนสูง (ซม.)">
+        <button onclick="calculateBMI()">คำนวณ</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100;
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+                resultDiv.textContent = 'กรุณากรอกข้อมูลให้ถูกต้อง';
+                resultDiv.style.backgroundColor = '#ccc';
+                return;
+            }
+
+            const bmi = weight / (height * height);
+            let color = '';
+            let message = '';
+            let advice = '';
+            let risk = '';
+
+            if (bmi < 16) {
+                color = '#FFFFFF'; // ขาว
+                message = 'ผอมมาก';
+                advice = 'ควรปรึกษาแพทย์หรือนักโภชนาการเพื่อวางแผนอาหาร เพิ่มโปรตีนและคาร์โบไฮเดรตในมื้ออาหาร และทานอาหารบ่อยครั้งขึ้น';
+                risk = 'เสี่ยงต่อภาวะทุพโภชนาการ กระดูกพรุน และภูมิคุ้มกันต่ำ';
+            } else if (bmi >= 16 && bmi < 18.5) {
+                color = '#FFFFFF'; // ขาว
+                message = 'ผอม';
+                advice = 'เพิ่มปริมาณอาหารที่มีแคลอรีสูง เช่น ถั่ว นม ผลไม้แห้ง และเพิ่มจำนวนมื้ออาหารต่อวัน';
+                risk = 'เสี่ยงต่อการอ่อนเพลีย ภูมิคุ้มกันต่ำ และปัญหาสุขภาพระยะยาว';
+            } else if (bmi >= 18.5 && bmi < 23) {
+                color = '#FFFFFF'; // ขาว
+                message = 'น้ำหนักปกติ';
+                advice = 'รักษาสุขภาพด้วยการทานอาหารครบ 5 หมู่และออกกำลังกายสม่ำเสมอ';
+                risk = 'สุขภาพแข็งแรง แต่ควรตรวจสุขภาพเป็นประจำ';
+            } else if (bmi >= 23 && bmi < 25) {
+                color = '#CCFFCC'; // เขียวอ่อน
+                message = 'เริ่มอ้วน';
+                advice = 'ควบคุมอาหาร ลดอาหารไขมันสูง และเพิ่มการออกกำลังกาย';
+                risk = 'เสี่ยงต่อโรคเบาหวานและความดันโลหิตสูง';
+            } else if (bmi >= 25 && bmi < 30) {
+                color = '#00CC00'; // เขียวเข้ม
+                message = 'อ้วนระดับ 1';
+                advice = 'ลดการทานอาหารไขมันสูงและเพิ่มการเผาผลาญพลังงานผ่านการออกกำลังกาย';
+                risk = 'เสี่ยงต่อโรคหัวใจและหลอดเลือด';
+            } else if (bmi >= 30 && bmi < 35) {
+                color = '#FFFF66'; // เหลือง
+                message = 'อ้วนระดับ 2';
+                advice = 'ปรึกษาแพทย์และวางแผนการลดน้ำหนักอย่างเป็นระบบ';
+                risk = 'เสี่ยงสูงต่อเบาหวานชนิดที่ 2 และโรคหัวใจ';
+            } else if (bmi >= 35 && bmi < 40) {
+                color = '#FF9933'; // ส้ม
+                message = 'อ้วนระดับ 3';
+                advice = 'ควบคุมอาหารอย่างเข้มงวดและปรึกษาผู้เชี่ยวชาญ';
+                risk = 'เสี่ยงต่อโรคเรื้อรังและภาวะแทรกซ้อน';
+            } else if (bmi >= 40 && bmi < 45) {
+                color = '#FF3333'; // แดง
+                message = 'โรคอ้วนขั้นรุนแรง';
+                advice = 'ควรพบแพทย์เพื่อการรักษาอย่างจริงจัง';
+                risk = 'เสี่ยงสูงต่อโรคหัวใจ, เบาหวาน และโรคไต';
+            } else {
+                color = '#000000'; // ดำ
+                message = 'วิกฤต/มีโรคแทรกซ้อนร้ายแรง';
+                advice = 'จำเป็นต้องรับการรักษาอย่างเร่งด่วน';
+                risk = 'เสี่ยงต่อภาวะหัวใจวาย, โรคหลอดเลือดสมอง และภาวะแทรกซ้อนร้ายแรง';
+            }
+
+            resultDiv.style.backgroundColor = color;
+            resultDiv.style.color = color === '#000000' ? '#FFFFFF' : '#000000';
+            resultDiv.innerHTML = `BMI ของคุณคือ ${bmi.toFixed(2)}<br>${message}<br>คำแนะนำ: ${advice}<br>ความเสี่ยง: ${risk}`;
+        }
+    </script>
+</body>
+</html>
